@@ -57,7 +57,7 @@ chart_option = st.sidebar.radio(
     [
         "Розподіл зарплат (Histogram)",
         "Зарплата за рівнем досвіду (Boxplot)",
-        "Топ-10 професій за зарплатою",
+        "Топ професій за зарплатою",
         "Матриця кореляції (Heatmap)",
         "Кластеризація: Дохід vs Досвід (KMeans)"
     ]
@@ -82,8 +82,8 @@ st.sidebar.markdown("---")
 all_numeric = df_filtered.select_dtypes(include=np.number).columns.tolist()
 numeric_columns = [col for col in all_numeric if col not in ['id', 'year']]
 
-reg_x = st.sidebar.selectbox("Оберіть змінну X (Досвід)", numeric_columns)
-reg_y = st.sidebar.selectbox("Оберіть змінну Y (Зарплата)", numeric_columns)
+reg_x = st.sidebar.selectbox("Оберіть змінну", numeric_columns)
+reg_y = st.sidebar.selectbox("Оберіть змінну", numeric_columns)
 show_regression = st.sidebar.checkbox("Побудувати регресійну модель")
 
 # Основна панель
@@ -119,11 +119,10 @@ else:
 st.divider()
 
 # Відображення обраного графіка
-if chart_option == "Топ-10 професій за зарплатою":
+if chart_option == "Топ професій за зарплатою":
     st.subheader("📊 Середня зарплата за професіями")
-    avg_salary_role = df_filtered.groupby("job_role")["salary_usd"].mean().sort_values(ascending=False).head(10).reset_index()
-    fig = px.bar(avg_salary_role, x="salary_usd", y="job_role", orientation='h', labels={"salary_usd": "Середня ЗП ($)", "job_role": "Професія"}, color="salary_usd", color_continuous_scale="Viridis"
-    )
+    avg_salary_role = df_filtered.groupby("job_role")["salary_usd"].mean().sort_values(ascending=False).reset_index()
+    fig = px.bar(avg_salary_role, x="salary_usd", y="job_role", orientation='h', labels={"salary_usd": "Середня ЗП ($)", "job_role": "Професія"}, color="salary_usd")
     st.plotly_chart(fig, width="stretch")
 
 elif chart_option == "Розподіл зарплат (Histogram)":

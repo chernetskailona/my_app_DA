@@ -57,7 +57,7 @@ chart_option = st.sidebar.radio(
     [
         "Розподіл зарплат (Histogram)",
         "Зарплата за рівнем досвіду (Boxplot)",
-        "Досвід vs Зарплата (Scatter)",
+        "Топ-10 професій за зарплатою",
         "Матриця кореляції (Heatmap)",
         "Кластеризація: Дохід vs Досвід (KMeans)"
     ]
@@ -119,15 +119,12 @@ else:
 st.divider()
 
 # Відображення обраного графіка
-if chart_option == "Досвід vs Зарплата (Scatter)":
-    st.subheader("📊 Взаємозв'язок стажу та доходу")
-    chart = alt.Chart(df_filtered).mark_circle(size=60).encode(
-        x="experience_years:Q",
-        y="salary_usd:Q",
-        color="experience_level:N",
-        tooltip=["job_role", "country", "salary_usd", "experience_years"]
-    ).interactive().properties(title="Залежність зарплати від років досвіду")
-    st.altair_chart(chart, use_container_width=True)
+if chart_option == "Топ-10 професій за зарплатою":
+    st.subheader("📊 Середня зарплата за професіями")
+    avg_salary_role = df_filtered.groupby("job_role")["salary_usd"].mean().sort_values(ascending=False).head(10).reset_index()
+    fig = px.bar(avg_salary_role, x="salary_usd", y="job_role", orientation='h', labels={"salary_usd": "Середня ЗП ($)", "job_role": "Професія"}, color="salary_usd", color_continuous_scale="Viridis"
+    )
+    st.plotly_chart(fig, width="stretch")
 
 elif chart_option == "Розподіл зарплат (Histogram)":
     st.subheader("📊 Розподіл зарплат фахівців")

@@ -119,7 +119,7 @@ else:
 st.divider()
 
 # Відображення обраного графіка
-if chart_option == "Зарплата vs Роки досвіду (Scatter)":
+if chart_option == "Досвід vs Зарплата (Scatter)":
     st.subheader("📊 Взаємозв'язок стажу та доходу")
     chart = alt.Chart(df_filtered).mark_circle(size=60).encode(
         x="experience_years:Q",

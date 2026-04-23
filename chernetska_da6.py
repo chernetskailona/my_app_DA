@@ -82,8 +82,8 @@ st.sidebar.markdown("---")
 all_numeric = df_filtered.select_dtypes(include=np.number).columns.tolist()
 numeric_columns = [col for col in all_numeric if col not in ['id', 'year']]
 
-reg_x = st.sidebar.selectbox("Оберіть змінну", numeric_columns)
-reg_y = st.sidebar.selectbox("Оберіть змінну", numeric_columns)
+reg_x = st.sidebar.selectbox("Оберіть змінну X", numeric_columns)
+reg_y = st.sidebar.selectbox("Оберіть змінну Y", numeric_columns)
 show_regression = st.sidebar.checkbox("Побудувати регресійну модель")
 
 # Основна панель

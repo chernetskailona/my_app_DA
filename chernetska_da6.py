@@ -40,7 +40,7 @@ st.set_page_config(
 st.sidebar.title("Панель фільтрації")
 
 selected_year = st.sidebar.selectbox("Рік аналізу", options=sorted(df["year"].unique(), reverse=True))
-selected_level = st.sidebar.selectbox("Рівень досвіду", sorted(df["experience_level"].unique()))
+selected_level = st.sidebar.multiselect("Рівень досвіду", options=df["experience_level"].unique(), default=df["experience_level"].unique())
 selected_roles = st.sidebar.multiselect("Професійні ролі", df["job_role"].unique(), default=df["job_role"].unique())
 selected_mode = st.sidebar.radio("Формат роботи", df["work_mode"].unique())
 selected_industries = st.sidebar.multiselect("Галузі економіки", options=df["industry"].unique(), default=df["industry"].unique())
@@ -69,7 +69,7 @@ st.sidebar.markdown(" **Автор**: Chernetska_Ilona")
 
 df_filtered = df[
     (df["year"] == selected_year) &
-    (df["experience_level"] == selected_level) &
+    (df["experience_level"].isin(selected_level)) &
     (df["job_role"].isin(selected_roles)) &
     (df["work_mode"] == selected_mode) &
     (df["industry"].isin(selected_industries)) &
